@@ -1,5 +1,7 @@
-# DM122 Final Work 
+## DM122 Final Work
 
-## PWA Application
+### PWA Kitten Image App
 
-Final work for the postgraduate class DM122, which consists of a PWA (Progressive Web App) application
+Postgraduate DM122 class final work, whick consists of a PWA (Progressive Web App) that gets kittens images and display the to the user.
+
+URI to get the images: https://api.thecatapi.com/v1/images/search
