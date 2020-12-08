@@ -7,7 +7,7 @@
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Kittens PWA</title>
+    <title>PWA - Vanilla JS</title>
     <link
       href="https://fonts.googleapis.com/css?family=Roboto:400,700"
       rel="stylesheet"
@@ -41,6 +41,8 @@
         ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }
     </style>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="manifest" href="manifest.json" />
   </head>
   <body>
     <div id="app">
@@ -61,7 +63,9 @@
           class="mdl-layout__content mat-typography"
           style="text-align: center"
         >
-          <p id="output"></p>
+          <p id="output">
+            <img src="assets/images/pwa-logo.png" alt="PWA Logo" />
+          </p>
         </main>
       </div>
     </div>
