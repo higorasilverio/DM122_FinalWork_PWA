@@ -1,6 +1,6 @@
 {
-  "name": "Kittens PWA",
-  "short_name": "KPWA",
+  "name": "PWA - Kittens PWA",
+  "short_name": "PWA - Kittens",
   "theme_color": "#3f51b5",
   "background_color": "#fff",
   "display": "standalone",
