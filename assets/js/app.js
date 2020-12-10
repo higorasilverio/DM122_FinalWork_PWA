@@ -1,5 +1,5 @@
 import HtmlService from "./htmlService.js";
-import KittensService from "./kittensService"
+import KittensService from "./kittensService.js";
 
 class App {
   constructor() {
