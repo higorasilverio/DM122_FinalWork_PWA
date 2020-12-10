@@ -4,6 +4,9 @@ import KittensService from "./kittensService.js";
 class App {
   constructor() {
     this.registerServiceWorker();
+    this.initialize();
+  }
+  initialize() {
     new HtmlService(new KittensService());
   }
   registerServiceWorker() {

@@ -12,20 +12,29 @@ export default class KittensService {
       tasks: "++id,description",
     });
     db.on("populate", async () => {
-      // const response = await fetch('https://api.thecatapi.com/v1/images/search');
-      // const jsonData = await response.json();
-      // await db.tasks.bulkPut(jsonData);
       await db.tasks.bulkPut([
         { description: "Learn JavaScript", done: true },
         { description: "Learn How To", done: false },
         { description: "Learn Nothing", done: false },
         { description: "Learn Everything", done: false },
       ]);
-      // db.tasks
-      //   .where("complete")
-      //   .equalsIgnoreCase("true")
-      //   .each((item) => console.log(item));
     });
     db.open();
+  }
+
+  getAll() {
+    return db.tasks.toArray();
+  }
+
+  get(id) {
+    return db.tasks.get(id);
+  }
+
+  save(task) {
+    return db.tasks.put(task);
+  }
+
+  delete(id) {
+    return db.tasks.delete(id);
   }
 }
