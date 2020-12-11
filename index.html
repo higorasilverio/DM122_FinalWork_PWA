@@ -42,6 +42,14 @@
           rgb(90, 110, 180)
         ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
       }
+      img {
+        height: 30vh;
+        align-self: center;
+        margin-top: 2%;
+        -webkit-border-radius: 5%;
+        -moz-border-radius: 5%;
+        border-radius: 5%;
+      }
     </style>
     <link rel="stylesheet" href="assets/css/style.css" />
     <link rel="manifest" href="manifest.json" />
@@ -65,21 +73,14 @@
           class="mdl-layout__content mat-typography"
           style="text-align: center"
         >
-          <form>
-            <input
-              type="text"
-              name="item"
-              placeholder="Type something"
-              autofocus=""
-              required=""
-              autocomplete="off"
-            />
-          </form>
+          <div id="img"></div>
+          <button id="buttonAdd">New Cat</button>
           <ul></ul>
         </main>
       </div>
     </div>
     <script defer src="assets/js/material.min.js"></script>
     <script type="module" src="assets/js/app.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </body>
 </html>

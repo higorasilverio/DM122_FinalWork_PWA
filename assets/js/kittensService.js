@@ -9,32 +9,38 @@ export default class KittensService {
     // start indexedDB
     db = new Dexie("kittensDB");
     db.version(1).stores({
-      tasks: "++id,description",
+      cats: "++id,url",
     });
     db.on("populate", async () => {
-      await db.tasks.bulkPut([
-        { description: "Learn JavaScript", done: true },
-        { description: "Learn How To", done: false },
-        { description: "Learn Nothing", done: false },
-        { description: "Learn Everything", done: false },
+      await db.cats.bulkPut([
+        { url: "https://cdn2.thecatapi.com/images/MTgzOTMyNQ.jpg" },
+        { url: "https://cdn2.thecatapi.com/images/MTgxMTY1OA.jpg" },
       ]);
     });
     db.open();
   }
 
   getAll() {
-    return db.tasks.toArray();
+    return db.cats.toArray();
   }
 
   get(id) {
-    return db.tasks.get(id);
+    return db.cats.get(id);
   }
 
-  save(task) {
-    return db.tasks.put(task);
+  save(cat) {
+    return db.cats.put(cat);
+  }
+
+  saveNew(CatUrl) {
+    return db.cats.add({url: CatUrl});
+  }
+
+  findByUrl(url) {
+    return db.cats.where("url").equalsIgnoreCase(url);
   }
 
   delete(id) {
-    return db.tasks.delete(id);
+    return db.cats.delete(id);
   }
 }
