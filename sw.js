@@ -6,19 +6,21 @@ const assetsToCache = [
   "https://cdn.jsdelivr.net/npm/dexie@3.0.3/dist/dexie.mjs",
   "https://fonts.googleapis.com/css?family=Roboto:400,700",
   "https://fonts.googleapis.com/icon?family=Material+Icons",
-  "assets/images/pwa-logo.png",
-  "assets/js/material.min.js",
-  "assets/css/style.css",
-  "assets/js/app.js",
-  "manifest.js",
-  "favicon.ico",
-  "index.html",
-  "/",
+  "./assets/images/pwa-logo.png",
+  "./assets/js/material.min.js",
+  "./assets/js/kittensService.js",
+  "./assets/js/htmlService.js",
+  "./assets/css/style.css",
+  "./assets/js/app.js",
+  "./manifest.json",
+  "./favicon.ico",
+  "./offline.html",
+  "./index.html",
+  "./",
 ];
 
 function removeOldCache(key) {
   if (key !== cacheName) {
-    console.log(`[Service Worker] Removing old cache: ${key}`);
     return caches.delete(key);
   }
 }
@@ -34,13 +36,11 @@ async function cacheStaticAssets() {
 }
 
 self.addEventListener("install", (event) => {
-  console.log("[Service Worker] Installing Service Worker...", event);
   event.waitUntil(cacheStaticAssets());
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
-  console.log("[Service Worker] Activating Service Worker...", event);
   event.waitUntil(cacheCleanup());
   return self.clients.claim();
 });
@@ -65,6 +65,5 @@ async function cacheFirst(request) {
 }
 
 self.addEventListener("fetch", (event) => {
-  // console.log('[Service Worker] Fetch event: ' + event.request.url);
   event.respondWith(cacheFirst(event.request));
 });

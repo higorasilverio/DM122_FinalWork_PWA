@@ -25,11 +25,10 @@ export default class HtmlService {
 
   async listTasks() {
     const tasks = await this.kittensService.getAll();
-    console.log(tasks);
     tasks.forEach((task) => this.addToHtmlList(task));
   }
-  
-  async deleteTask(li, taskId) {
+
+  async deleteTask(taskId, li) {
     await this.kittensService.delete(taskId);
     li.remove();
   }
@@ -51,17 +50,17 @@ export default class HtmlService {
     const li = document.createElement("li");
     const span = document.createElement("span");
     const button = document.createElement("button");
-    li.setAttribute("data-item-id", task.id);
+    //li.setAttribute("data-item-id", task.id);
     li.addEventListener("click", () => this.toggleTask(li, task.id));
+    if (task.done) {
+      li.classList.add(doneCssClass);
+    }
     span.textContent = task.description;
     button.textContent = "x";
     button.addEventListener("click", (event) => {
       event.stopPropagation();
-      this.deleteTask(li, task.id);
+      this.deleteTask(task.id, li);
     });
-    if (task.done) {
-      li.classList.add(doneCssClass);
-    }
     li.appendChild(span);
     li.appendChild(button);
     ul.appendChild(li);
