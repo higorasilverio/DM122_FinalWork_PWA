@@ -1,6 +1,9 @@
-const selected = 'selected';
-const previousLi = null;
-const previousCat = null;
+const selected = "selected";
+const noCats =
+  "https://aspectodecor.com.br/wp-content/uploads/2020/04/click.png";
+const getUrl = "https://api.thecatapi.com/v1/images/search";
+var previousLi = null;
+var previousCat = null;
 
 export default class HtmlService {
   constructor(kittensService) {
@@ -14,8 +17,8 @@ export default class HtmlService {
   async bindImgEvent() {
     var img = document.querySelector("img");
     var singleCat = await this.viewSingleCat();
-    this.previousCat = singleCat;
     img.src = singleCat.url;
+    this.previousCat = singleCat;
   }
 
   async viewSingleCat() {
@@ -23,8 +26,8 @@ export default class HtmlService {
     const numberOfCats = await this.kittensService.count();
     if (numberOfCats == 0) {
       anyCat[0] = {
-        url:
-          "https://thumbs.dreamstime.com/t/o-%C3%ADcone-do-gato-no-c%C3%ADrculo-vermelho-da-proibi%C3%A7%C3%A3o-nenhuns-animais-de-estima%C3%A7%C3%A3o-proibe-sinal-s%C3%ADmbolo-proibido-112129289.jpg",
+        url: noCats,
+        id: 1,
       };
       return anyCat[0];
     }
@@ -34,27 +37,28 @@ export default class HtmlService {
   async listCats() {
     const cats = await this.kittensService.getAll();
     cats.forEach((cat) => this.addToHtmlList(cat));
+    if (cats.length > 0) {
+      const lastCat = document.querySelector("ul").lastElementChild;
+      lastCat.classList.add(selected);
+      this.previousLi = lastCat;
+    }
   }
 
   requestNewCat() {
     const buttonAdd = document.getElementById("buttonAdd");
-    buttonAdd.addEventListener("click", () => this.getNewCatObject());
+    buttonAdd.addEventListener("click", () => this.getCatImage());
   }
 
-  getNewCatObject() {
+  getCatImage() {
     let vm = this;
     axios
-      .get("https://api.thecatapi.com/v1/images/search")
+      .get(getUrl)
       .then(function (response) {
         const url = JSON.parse(response.request.response)[0].url;
-        if (url.includes(".gif")) {
-          vm.getNewCatObject();
-          return;
-        }
         vm.saveNewCat(url);
       })
       .catch(function (error) {
-        console.log(error);
+        console.error(error);
       });
   }
 
@@ -68,26 +72,53 @@ export default class HtmlService {
 
   requestUpdateCat() {
     const buttonUpdate = document.getElementById("buttonUpdate");
-    buttonUpdate.addEventListener("click", () => this.getCurrentCat());
+    buttonUpdate.addEventListener("click", () => this.updateCat());
   }
 
-  async getCurrentCat(){
-    const catId = document.querySelector("img").getAttribute('src');
-    const countCats = await this.kittensService.count();
-    if (src != "" && countCats != 0) {
-      this.updateCat(src);
+  async updateCat() {
+    let vm = this;
+    const src = document.querySelector("img").src;
+    if (src == noCats) {
+      return;
+    }
+    let cat = vm.previousCat;
+    try {
+      await axios
+        .get(getUrl)
+        .then(function (response) {
+          const url = JSON.parse(response.request.response)[0].url;
+          cat.url = url;
+          vm.kittensService.update(cat.url, cat.id);
+        })
+        .catch(function (error) {
+          console.error(error);
+        })
+        .then(function () {
+          var img = document.querySelector("img");
+          img.src = cat.url;
+        });
+    } catch (error) {
+      console.error(error);
     }
   }
 
-  async updateCat(src){
-    const cat = await this.kittensService.findByUrl(src);
-    console.log(cat);
-  }
-
   async deleteCat(catId, li) {
+    var control = false;
+    const liToEvaluate = this.previousLi;
+    if (li == liToEvaluate) {
+      const catsRemaining = await this.kittensService.count();
+      if (catsRemaining > 0) {
+        control = true;
+      }
+    }
     await this.kittensService.delete(catId);
     li.remove();
-    this.bindImgEvent();
+    if (control == true) {
+      var img = document.querySelector("img");
+      img.src = noCats;
+    } else {
+      this.bindImgEvent();
+    }
   }
 
   async selectCat(li, catId) {
@@ -97,6 +128,7 @@ export default class HtmlService {
     li.classList.add(selected);
     this.previousLi = li;
     const cat = await this.kittensService.get(catId);
+    this.previousCat = cat;
     var img = document.querySelector("img");
     img.src = cat.url;
   }
@@ -115,6 +147,8 @@ export default class HtmlService {
     });
     li.appendChild(span);
     li.appendChild(button);
+    this.selectCat(li, cat.id);
+    this.previousCat = cat;
     ul.appendChild(li);
   }
 }

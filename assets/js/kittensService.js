@@ -37,12 +37,8 @@ export default class KittensService {
     return db.cats.delete(id);
   }
 
-  saveNew(CatUrl) {
-    return db.cats.add({ url: CatUrl });
-  }
-
-  findByUrl(url) {
-    return db.cats.where("url").equalsIgnoreCase(url);
+  update(url, id) {
+    return db.cats.put({ url, id });
   }
 
   count() {

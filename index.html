@@ -24,26 +24,11 @@
     <link rel="manifest" href="manifest.json" />
     <style>
       body {
-        background: #373b44; /* fallback for old browsers */
-        background: -webkit-linear-gradient(
-          to right,
-          rgb(90, 110, 180),
-          rgb(60, 80, 180),
-          rgb(60, 80, 180),
-          rgb(60, 80, 180),
-          rgb(90, 110, 180)
-        ); /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(
-          to right,
-          rgb(90, 110, 180),
-          rgb(60, 80, 180),
-          rgb(60, 80, 180),
-          rgb(60, 80, 180),
-          rgb(90, 110, 180)
-        ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        background: rgb(90, 100, 190); /* fallback for old browsers */
       }
       img {
         height: 30vh;
+        max-width: 90%;
         align-self: center;
         margin-top: 2%;
         -webkit-border-radius: 5%;
@@ -74,10 +59,10 @@
           style="text-align: center"
         >
           <div id="img">
-            <img  src="" alt="">
+            <img src="" alt="" />
           </div>
-          <button id="buttonAdd">New Cat</button>
-          <button id="buttonUpdate">Update Cat</button>
+          <button id="buttonAdd">New Cat Image</button>
+          <button id="buttonUpdate">Update Cat Image</button>
           <ul></ul>
         </main>
       </div>
