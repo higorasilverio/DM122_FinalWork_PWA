@@ -1,5 +1,6 @@
 const selected = 'selected';
 const previousLi = null;
+const previousCat = null;
 
 export default class HtmlService {
   constructor(kittensService) {
@@ -7,11 +8,13 @@ export default class HtmlService {
     this.bindImgEvent();
     this.listCats();
     this.requestNewCat();
+    this.requestUpdateCat();
   }
 
   async bindImgEvent() {
     var img = document.querySelector("img");
     var singleCat = await this.viewSingleCat();
+    this.previousCat = singleCat;
     img.src = singleCat.url;
   }
 
@@ -61,6 +64,24 @@ export default class HtmlService {
     cat.id = catId;
     this.addToHtmlList(cat);
     this.bindImgEvent();
+  }
+
+  requestUpdateCat() {
+    const buttonUpdate = document.getElementById("buttonUpdate");
+    buttonUpdate.addEventListener("click", () => this.getCurrentCat());
+  }
+
+  async getCurrentCat(){
+    const catId = document.querySelector("img").getAttribute('src');
+    const countCats = await this.kittensService.count();
+    if (src != "" && countCats != 0) {
+      this.updateCat(src);
+    }
+  }
+
+  async updateCat(src){
+    const cat = await this.kittensService.findByUrl(src);
+    console.log(cat);
   }
 
   async deleteCat(catId, li) {
