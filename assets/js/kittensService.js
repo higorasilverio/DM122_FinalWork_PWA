@@ -10,14 +10,6 @@ export default class KittensService {
     db.version(1).stores({
       cats: "++id,url",
     });
-    db.on("populate", async () => {
-      await db.cats.bulkPut([
-        { url: "https://cdn2.thecatapi.com/images/MTgzOTMyNQ.jpg" },
-        { url: "https://cdn2.thecatapi.com/images/MTgxMTY1OA.jpg" },
-        { url: "https://cdn2.thecatapi.com/images/c2i.jpg" },
-        { url: "https://cdn2.thecatapi.com/images/a6d.jpg" },
-      ]);
-    });
     db.open();
   }
 

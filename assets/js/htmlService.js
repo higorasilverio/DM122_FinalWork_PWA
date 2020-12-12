@@ -1,4 +1,4 @@
-const selected = "selected";
+const selected = "active";
 const noCats =
   "https://aspectodecor.com.br/wp-content/uploads/2020/04/click.png";
 const getUrl = "https://api.thecatapi.com/v1/images/search";
@@ -136,16 +136,23 @@ export default class HtmlService {
   addToHtmlList(cat) {
     const ul = document.querySelector("ul");
     const li = document.createElement("li");
-    const span = document.createElement("span");
+    li.classList.add("list-group-item");
+    li.classList.add("list-group-item-primary");
+    li.classList.add("apart");
+    const h4 = document.createElement("h4");
     const button = document.createElement("button");
+    const buttonH4 = document.createElement("h4");
+    buttonH4.textContent = "Delete";
     li.addEventListener("click", () => this.selectCat(li, cat.id));
-    span.textContent = cat.id;
-    button.textContent = "x";
+    h4.textContent = "Cat #" + cat.id;
+    button.appendChild(buttonH4);
+    button.classList.add("btn");
+    button.classList.add("btn-danger");
     button.addEventListener("click", (event) => {
       event.stopPropagation();
       this.deleteCat(cat.id, li);
     });
-    li.appendChild(span);
+    li.appendChild(h4);
     li.appendChild(button);
     this.selectCat(li, cat.id);
     this.previousCat = cat;
