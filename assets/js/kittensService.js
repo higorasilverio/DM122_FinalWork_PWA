@@ -6,7 +6,6 @@ export default class KittensService {
     this.initializeDB();
   }
   initializeDB() {
-    // start indexedDB
     db = new Dexie("kittensDB");
     db.version(1).stores({
       cats: "++id,url",
@@ -15,6 +14,8 @@ export default class KittensService {
       await db.cats.bulkPut([
         { url: "https://cdn2.thecatapi.com/images/MTgzOTMyNQ.jpg" },
         { url: "https://cdn2.thecatapi.com/images/MTgxMTY1OA.jpg" },
+        { url: "https://cdn2.thecatapi.com/images/c2i.jpg" },
+        { url: "https://cdn2.thecatapi.com/images/a6d.jpg" },
       ]);
     });
     db.open();
@@ -32,15 +33,19 @@ export default class KittensService {
     return db.cats.put(cat);
   }
 
+  delete(id) {
+    return db.cats.delete(id);
+  }
+
   saveNew(CatUrl) {
-    return db.cats.add({url: CatUrl});
+    return db.cats.add({ url: CatUrl });
   }
 
   findByUrl(url) {
     return db.cats.where("url").equalsIgnoreCase(url);
   }
 
-  delete(id) {
-    return db.cats.delete(id);
+  count() {
+    return db.cats.count();
   }
 }

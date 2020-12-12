@@ -38,6 +38,6 @@
     cursor: pointer;
   }
   
-  .done > span {
-    text-decoration: line-through;
+  .selected {
+    background-color: #ccc;
   }
